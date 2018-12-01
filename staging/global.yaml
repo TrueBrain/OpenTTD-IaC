@@ -1,6 +1,9 @@
 ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
+    # We use letsencrypt-production on staging too.
+    # letsencrypt-staging refers to the staging of letsencrypt, which is meant
+    # to test if your letsencrypt infrastructure works.
     certmanager.k8s.io/cluster-issuer: letsencrypt-production
     certmanager.k8s.io/acme-challenge-type: http01
     certmanager.k8s.io/acme-http01-ingress-class: nginx
