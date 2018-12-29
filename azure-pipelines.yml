@@ -21,7 +21,7 @@ jobs:
     displayName: 'Build image'
     inputs:
       dockerFile: Dockerfile
-      imageName: 'openttd/openttd-iac:$(version)'
+      imageName: 'openttd/iac:$(version)'
       addDefaultLabels: false
 
   # Only publish when it triggered on 'master' (and not on a Pull Request)
@@ -32,15 +32,15 @@ jobs:
       containerregistrytype: 'Container Registry'
       dockerRegistryEndpoint: 'OpenTTD Docker Hub'
       command: 'Push an image'
-      imageName: 'openttd/openttd-iac:$(version)'
+      imageName: 'openttd/iac:$(version)'
 
   - task: Docker@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: 'Tag as bootstrap image'
     inputs:
       command: 'Tag image'
-      arguments: 'openttd/openttd-iac:bootstrap'
-      imageName: 'openttd/openttd-iac:$(version)'
+      arguments: 'openttd/iac:bootstrap'
+      imageName: 'openttd/iac:$(version)'
 
   - task: Docker@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -49,4 +49,4 @@ jobs:
       containerregistrytype: 'Container Registry'
       dockerRegistryEndpoint: 'OpenTTD Docker Hub'
       command: 'Push an image'
-      imageName: 'openttd/openttd-iac:bootstrap'
+      imageName: 'openttd/iac:bootstrap'
