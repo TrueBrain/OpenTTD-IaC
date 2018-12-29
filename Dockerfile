@@ -8,11 +8,11 @@ WORKDIR /code
 COPY requirements.txt \
         LICENSE \
         README.md \
-        run.sh \
         /code/
-COPY charts /code/charts
+COPY run.sh /usr/bin/
+COPY charts /charts
 COPY deployer /code/deployer
-COPY config /code/config
+COPY config /config
 
 RUN apk --no-cache add \
                 ca-certificates \
