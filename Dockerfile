@@ -13,9 +13,7 @@ COPY requirements.txt \
         /code/
 COPY charts /code/charts
 COPY deployer /code/deployer
-COPY global /code/global
-COPY production /code/production
-COPY staging /code/staging
+COPY config /code/config
 
 RUN apk --no-cache add \
                 ca-certificates \

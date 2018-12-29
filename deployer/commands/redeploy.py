@@ -22,7 +22,7 @@ async def _deploy(namespace, chart, app_version):
         if len(files) != 1:
             raise Exception("Expected one package tgz, found %d" % len(files))
 
-        await run_command(f"helm upgrade --namespace {namespace} --install {namespace}-{chart} -f {namespace}/global.yaml -f {namespace}/{chart}.yaml {files[0]}")
+        await run_command(f"helm upgrade --force --namespace {namespace} --install {namespace}-{chart} -f config/{namespace}/global.yaml -f config/{namespace}/{chart}.yaml {files[0]}")
 
 
 async def handle_event(event):

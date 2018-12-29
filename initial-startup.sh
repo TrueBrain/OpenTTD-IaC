@@ -13,7 +13,10 @@
 
 set -e
 
-for chart in $(cd global && ls *.yaml); do
+kubectl apply -f config/namespaces.yaml
+kubectl apply -f config/deployer-service-account.yaml
+
+for chart in $(cd config/global && ls *.yaml); do
     chart=$(echo ${chart} | sed 's/.yaml$//')
     if [ "${chart}" = "global" ]; then continue; fi
 
@@ -21,5 +24,5 @@ for chart in $(cd global && ls *.yaml); do
         helm dep update charts/${chart}
     fi
 
-    helm upgrade --namespace global --install global-${chart} -f global/global.yaml -f global/${chart}.yaml charts/${chart}
+    helm upgrade --force --namespace global --install global-${chart} -f config/global/global.yaml -f config/global/${chart}.yaml charts/${chart}
 done
