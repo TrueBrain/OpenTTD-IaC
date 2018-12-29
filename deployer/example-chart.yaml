@@ -1,0 +1,6 @@
+apiVersion: k8s.openttd.org/v1
+kind: Chart
+metadata:
+  name: openttd-website
+spec:
+  appversion: 0.0.0-60-g0f73704
