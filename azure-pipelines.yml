@@ -11,9 +11,10 @@ jobs:
 
   steps:
   - script: |
-      set -ex
-      VERSION=`git describe --tags`
-      echo "##vso[task.setvariable variable=version]$VERSION"
+      set -e
+      VERSION=$(git describe --tags)
+      echo "${VERSION}"
+      echo "##vso[task.setvariable variable=version]${VERSION}"
     displayName: 'Detect version'
 
   - task: Docker@1
