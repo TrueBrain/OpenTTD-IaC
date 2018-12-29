@@ -33,3 +33,20 @@ jobs:
       dockerRegistryEndpoint: 'OpenTTD Docker Hub'
       command: 'Push an image'
       imageName: 'openttd/openttd-iac:$(version)'
+
+  - task: Docker@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Tag as bootstrap image'
+    inputs:
+      command: 'Tag image'
+      arguments: 'openttd/openttd-iac:bootstrap'
+      imageName: 'openttd/openttd-iac:$(version)'
+
+  - task: Docker@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Publish bootstrap image'
+    inputs:
+      containerregistrytype: 'Container Registry'
+      dockerRegistryEndpoint: 'OpenTTD Docker Hub'
+      command: 'Push an image'
+      imageName: 'openttd/openttd-iac:bootstrap'
