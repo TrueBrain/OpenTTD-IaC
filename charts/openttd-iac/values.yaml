@@ -1,0 +1,15 @@
+image:
+  repository: openttd/iac
+  tag: staging
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

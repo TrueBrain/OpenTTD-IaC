@@ -1,0 +1,12 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: deployer-full-access
+  namespace: staging
+subjects:
+- kind: ServiceAccount
+  name: deployer
+  namespace: global
+roleRef:
+  kind: ClusterRole
+  name: deployer-full-access
