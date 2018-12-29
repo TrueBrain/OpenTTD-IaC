@@ -5,7 +5,7 @@ apiVersion: v1
 appVersion: bootstrap
 description: OpenTTD IaC
 home: https://github.com/TrueBrain/OpenTTD-IaC
-name: deployer
+name: openttd-iac
 sources:
   - https://github.com/TrueBrain/OpenTTD-IaC
 version: 0.1.0
