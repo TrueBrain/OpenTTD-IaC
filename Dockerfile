@@ -8,7 +8,6 @@ WORKDIR /code
 COPY requirements.txt \
         LICENSE \
         README.md \
-        initial-startup.sh \
         run.sh \
         /code/
 COPY charts /code/charts
