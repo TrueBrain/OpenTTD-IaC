@@ -1,10 +1,5 @@
 image:
   repository: openttd/iac
-  # This tag is the bootstrap version to get the show on the road.
-  # Once it is installed, it will use a CRD to redeploy itself (if already
-  # configured with another version).
-  tag: bootstrap
-  pullPolicy: IfNotPresent
 
 nameOverride: ""
 fullnameOverride: ""

@@ -2,8 +2,6 @@ replicaCount: 1
 
 image:
   repository: openttd/website
-  tag: staging
-  pullPolicy: IfNotPresent
 
 nameOverride: ""
 fullnameOverride: ""
