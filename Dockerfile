@@ -25,6 +25,7 @@ RUN apk --no-cache add \
         && chmod +x /usr/bin/kubectl \
         && chmod +x /usr/bin/helm \
         && chmod +x /usr/bin/tiller \
+        && helm init --client-only \
         && rm -rf linux-amd64 \
         && apk --no-cache del \
                 curl
