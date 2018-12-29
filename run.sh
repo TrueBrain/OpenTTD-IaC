@@ -5,7 +5,9 @@
 
 set -e
 
+# Start a local tiller and make sure the rest connect to it
 tiller --history-max 10 --storage secret &
+export HELM_HOST=":44134"
 sleep 1
 
 # Make sure openttd-base is updated (it is not monitored by deployer, and can
