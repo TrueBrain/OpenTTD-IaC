@@ -17,8 +17,8 @@ COPY config /config
 RUN apk --no-cache add \
                 ca-certificates \
                 curl \
-        && curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
-        && curl https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar xvz \
+        && curl -LOs https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+        && curl -s https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar xvz \
         && mv kubectl /usr/bin/kubectl \
         && mv linux-amd64/helm /usr/bin/helm \
         && mv linux-amd64/tiller /usr/bin/tiller \
@@ -26,6 +26,7 @@ RUN apk --no-cache add \
         && chmod +x /usr/bin/helm \
         && chmod +x /usr/bin/tiller \
         && helm init --client-only \
+        && helm repo remove local \
         && rm -rf linux-amd64 \
         && apk --no-cache del \
                 curl
