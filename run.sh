@@ -17,7 +17,6 @@ trap _term INT TERM
 # Start a local tiller and make sure the rest connect to it
 TILLER_NAMESPACE=global linux-amd64/tiller --history-max 10 --storage secret &
 tiller_pid=$!
-sleep 1
 
 # Start the deployer
 HELM_HOST=":44134" python -m deployer &

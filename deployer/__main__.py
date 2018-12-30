@@ -5,6 +5,7 @@ import signal
 
 from kubernetes_asyncio import client, config
 
+from deployer.helpers.subprocess import run_command
 from deployer.monitor import monitor
 
 log = logging.getLogger(__name__)
@@ -22,6 +23,10 @@ async def main():
     except Exception:
         await config.load_kube_config()
     crds = client.CustomObjectsApi()
+
+    # Give tiller time to start up, if it isn't already
+    log.info("Waiting for tiller to be available ..")
+    await run_command(f"helm version", timeout=30)
 
     tasks = [
         asyncio.ensure_future(monitor(crds, "global")),
