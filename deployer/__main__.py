@@ -7,7 +7,10 @@ from deployer.monitor import monitor
 
 
 async def main():
-    await config.load_kube_config()
+    try:
+        await config.load_incluster_config()
+    except:
+        await config.load_kube_config()
     crds = client.CustomObjectsApi()
 
     await monitor(crds)
