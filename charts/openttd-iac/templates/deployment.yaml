@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  serviceAccountName: deployer
   replicas: 1
   selector:
     matchLabels:
@@ -20,6 +19,7 @@ spec:
         app.kubernetes.io/name: {{ include "helper.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      serviceAccountName: deployer
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"

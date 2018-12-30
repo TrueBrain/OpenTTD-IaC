@@ -1,3 +1,7 @@
+# Create a 'deployer' ServiceAccount, who has full access in the global,
+# production and staging namespace. This SA is used for the openttd-iac
+# pod, so it can manager the full kubernetes from within.
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -11,13 +15,8 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: deployer-full-access
 rules:
-- apiGroups: ["", "extensions", "apps"]
+- apiGroups: ["", "extensions", "apps", "k8s.openttd.org"]
   resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["batch"]
-  resources:
-  - jobs
-  - cronjobs
   verbs: ["*"]
 
 ---
