@@ -32,14 +32,12 @@ helm upgrade \
     -f config/global/openttd-base.yaml \
     charts/openttd-base
 
-if [ -z "$(helm ls -q | grep global-openttd-iac)" ]; then
-    # Deploy openttd-iac for the first time. This contains the deployer, and will
-    # take over from there.
-    helm upgrade \
-        --force \
-        --namespace global \
-        --install global-openttd-iac \
-        -f config/global/global.yaml \
-        -f config/global/openttd-iac.yaml \
-        charts/openttd-iac
-fi
+# Deploy openttd-iac for the first time. This contains the deployer, and will
+# take over from there.
+helm upgrade \
+    --force \
+    --namespace global \
+    --install global-openttd-iac \
+    -f config/global/global.yaml \
+    -f config/global/openttd-iac.yaml \
+    charts/openttd-iac
