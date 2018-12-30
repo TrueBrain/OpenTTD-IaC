@@ -17,7 +17,7 @@ async def _check_needs_deployment(namespace, chart, app_version):
                                  capture_stdout=True)
     # 'helm ls' returns nothing if nothing matched (not even an empty JSON)
     if len(raw_json) == 0:
-        return False
+        return True
     data = json.loads(raw_json[0])
 
     if len(data["Releases"]) != 1:
