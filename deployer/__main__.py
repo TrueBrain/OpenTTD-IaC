@@ -8,7 +8,7 @@ from deployer.monitor import monitor
 
 async def main():
     try:
-        await config.load_incluster_config()
+        config.load_incluster_config()
     except:
         await config.load_kube_config()
     crds = client.CustomObjectsApi()
