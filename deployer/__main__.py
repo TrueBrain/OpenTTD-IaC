@@ -25,7 +25,7 @@ async def main():
 if __name__ == "__main__":
     logging.basicConfig(
         format="%(asctime)s %(levelname)-8s %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
+        datefmt="[deployer] %Y/%m/%d %H:%M:%S",
         level=logging.INFO)
 
     loop = asyncio.get_event_loop()

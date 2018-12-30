@@ -10,9 +10,9 @@ COPY requirements.txt \
         README.md \
         /code/
 COPY run.sh /usr/bin/
-COPY charts /charts
+COPY charts /code/charts
 COPY deployer /code/deployer
-COPY config /config
+COPY config /code/config
 
 RUN apk --no-cache add \
                 ca-certificates \
