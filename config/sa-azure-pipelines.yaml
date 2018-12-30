@@ -1,0 +1,64 @@
+# Create a 'azure-pipelines' ServiceAccount, which can only change entries
+# in charts.k8s.openttd.org
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: azure-pipelines
+  namespace: global
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: azure-pipelines-charts
+rules:
+- apiGroups: ["k8s.openttd.org"]
+  resources: ["charts"]
+  verbs: ["create", "get", "patch", "update"]
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: azure-pipelines-charts
+  namespace: global
+subjects:
+- kind: ServiceAccount
+  name: azure-pipelines
+  namespace: global
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azure-pipelines-charts
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: azure-pipelines-charts
+  namespace: production
+subjects:
+- kind: ServiceAccount
+  name: azure-pipelines
+  namespace: global
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azure-pipelines-charts
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: azure-pipelines-charts
+  namespace: staging
+subjects:
+- kind: ServiceAccount
+  name: azure-pipelines
+  namespace: global
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azure-pipelines-charts

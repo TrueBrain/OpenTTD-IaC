@@ -14,6 +14,7 @@ set -e
 
 kubectl apply -f config/namespaces.yaml
 kubectl apply -f config/crd-charts.yaml
+kubectl apply -f config/sa-azure-pipelines.yaml
 kubectl apply -f config/sa-deployer.yaml
 
 # External CRDs; helm doesn't support CRDs that well, so we apply it manually
