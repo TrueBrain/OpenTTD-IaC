@@ -19,7 +19,7 @@ def signal_handler(tasks, signum, frame):
 async def main():
     try:
         config.load_incluster_config()
-    except:
+    except Exception:
         await config.load_kube_config()
     crds = client.CustomObjectsApi()
 

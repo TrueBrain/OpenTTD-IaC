@@ -1,5 +1,15 @@
 FROM python:3.6-alpine
 
+RUN pip install flake8
+
+# Run flake8 over the code
+COPY deployer deployer
+COPY .flake8 .flake8
+RUN flake8 deployer
+
+
+FROM python:3.6-alpine
+
 ARG KUBECTL_VERSION=v1.13.0
 ARG HELM_VERSION=v2.12.1
 
