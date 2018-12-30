@@ -13,7 +13,13 @@ async def main():
         await config.load_kube_config()
     crds = client.CustomObjectsApi()
 
-    await monitor(crds)
+    tasks = [
+        asyncio.ensure_future(monitor(crds, "global")),
+        asyncio.ensure_future(monitor(crds, "production")),
+        asyncio.ensure_future(monitor(crds, "staging")),
+    ]
+
+    await asyncio.wait(tasks)
 
 
 if __name__ == "__main__":

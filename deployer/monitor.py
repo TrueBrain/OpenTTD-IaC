@@ -13,10 +13,10 @@ type_mapping = {
 }
 
 
-async def monitor(crds):
-    log.info("Monitoring charts.k8s.openttd.org for changes ...")
+async def monitor(crds, namespace):
+    log.info(f"Monitoring charts.k8s.openttd.org in namespace {namespace} for changes ...")
 
-    stream = watch.Watch().stream(crds.list_cluster_custom_object, "k8s.openttd.org", "v1", "charts")
+    stream = watch.Watch().stream(crds.list_namespaced_custom_object, "k8s.openttd.org", "v1", namespace, "charts")
     async for event in stream:
         module = type_mapping.get(event["type"])
         if module:
