@@ -1,9 +1,19 @@
 import asyncio
+import functools
 import logging
+import signal
 
 from kubernetes_asyncio import client, config
 
 from deployer.monitor import monitor
+
+log = logging.getLogger(__name__)
+
+
+def signal_handler(tasks, signum, frame):
+    log.info("SIGTERM received; shutting down ..")
+    for task in tasks:
+        task.cancel()
 
 
 async def main():
@@ -18,6 +28,8 @@ async def main():
         asyncio.ensure_future(monitor(crds, "production")),
         asyncio.ensure_future(monitor(crds, "staging")),
     ]
+
+    signal.signal(signal.SIGTERM, functools.partial(signal_handler, tasks))
 
     await asyncio.wait(tasks)
 
