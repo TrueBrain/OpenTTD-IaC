@@ -15,7 +15,7 @@ _term() {
 trap _term INT TERM
 
 # Start a local tiller and make sure the rest connect to it
-TILLER_NAMESPACE=global linux-amd64/tiller --history-max 10 --storage secret &
+TILLER_NAMESPACE=global tiller --history-max 10 --storage secret &
 tiller_pid=$!
 
 # Start the deployer
