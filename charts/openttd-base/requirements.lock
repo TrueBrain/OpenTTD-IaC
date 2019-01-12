@@ -5,5 +5,8 @@ dependencies:
 - name: cert-manager
   repository: https://kubernetes-charts.storage.googleapis.com
   version: v0.5.2
-digest: sha256:5d9035c3e065efe55513d9381e60c57f0077e09d4cf832e8da3ec8f1254915cc
-generated: 2018-12-29T19:45:21.626144+01:00
+- name: metrics-server
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 2.0.4
+digest: sha256:0d0b7b0729d98e41c1476d2d13fc9c07138e2ebb2519506d6d1a0fe894baad70
+generated: 2018-12-31T14:06:52.3867534+01:00

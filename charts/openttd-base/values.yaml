@@ -1,2 +1,12 @@
 acme:
-    email: me@example.com
+  email: me@example.com
+
+metrics-server:
+  args:
+    - --logtostderr
+    # On DigitalOcean the default DNS resolving fails, and the certificate
+    # is not signed with the IP in the SAN (for good reason). As such, we
+    # have to switch to InternalIP and allow insecure TLS.
+    # See https://github.com/digitalocean/digitalocean-cloud-controller-manager/issues/150
+    - --kubelet-preferred-address-types=InternalIP
+    - --kubelet-insecure-tls
