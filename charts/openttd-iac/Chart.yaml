@@ -7,5 +7,5 @@ description: OpenTTD IaC
 home: https://github.com/TrueBrain/OpenTTD-IaC
 name: openttd-iac
 sources:
-  - https://github.com/TrueBrain/OpenTTD-IaC
-version: 0.1.0
+- https://github.com/TrueBrain/OpenTTD-IaC
+version: 0.2.0

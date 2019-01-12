@@ -20,6 +20,10 @@ kubectl apply -f config/sa-deployer.yaml
 # External CRDs; helm doesn't support CRDs that well, so we apply it manually
 kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/master/deploy/manifests/00-crds.yaml
 
+for i in $(ls secrets/*.yaml); do
+    kubectl apply -f ${i}
+done
+
 # Install openttd-base. This is the only package not monitored/deployed by
 # deployer.This is mainly because it needs a ton of access to do so, which is
 # unwise to assign to a single pod.

@@ -18,6 +18,7 @@ WORKDIR /code
 COPY requirements.txt \
         LICENSE \
         README.md \
+        .version \
         /code/
 COPY run.sh /usr/bin/
 COPY charts /code/charts

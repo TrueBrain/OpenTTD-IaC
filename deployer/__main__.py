@@ -1,6 +1,8 @@
 import asyncio
 import functools
 import logging
+import os
+import sentry_sdk
 import signal
 
 from kubernetes_asyncio import client, config
@@ -18,6 +20,19 @@ def signal_handler(tasks, signum, frame):
 
 
 async def main():
+    # Setup Sentry if configured
+    sentry_dsn = os.getenv("SENTRY_DSN")
+    if sentry_dsn:
+        with open(".version") as f:
+            release = f.readline()
+        environment = os.getenv("HOSTNAME", "dev").split("-")[0]
+
+        sentry_sdk.init(
+            sentry_dsn,
+            release=release,
+            environment=environment)
+        log.info("Sentry initialized with release='%s' and environment='%s'", release, environment)
+
     try:
         config.load_incluster_config()
     except Exception:

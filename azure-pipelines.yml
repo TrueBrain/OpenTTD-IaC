@@ -14,6 +14,7 @@ jobs:
   - script: |
       set -e
       VERSION=$(git describe --tags)
+      echo "${VERSION}" > .version
       echo "${VERSION}"
       echo "##vso[build.updatebuildnumber]${VERSION}"
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
