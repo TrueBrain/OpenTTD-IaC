@@ -1,6 +1,17 @@
+---
+apiVersion: k8s.openttd.org/v1
+kind: Chart
+metadata:
+  name: openttd-iac
+  namespace: global
+spec:
+  appversion: 0.0.0-40-g9f06148
+
+---
 apiVersion: k8s.openttd.org/v1
 kind: Chart
 metadata:
   name: openttd-website
+  namespace: staging
 spec:
-  appversion: 0.0.0-60-g0f73704
+  appversion: 0.0.0-67-gee0e2f9
