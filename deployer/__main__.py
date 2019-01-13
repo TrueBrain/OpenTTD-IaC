@@ -24,7 +24,7 @@ async def main():
     sentry_dsn = os.getenv("SENTRY_DSN")
     if sentry_dsn:
         with open(".version") as f:
-            release = f.readline()
+            release = f.readline().strip()
         environment = os.getenv("HOSTNAME", "dev").split("-")[0]
 
         sentry_sdk.init(
