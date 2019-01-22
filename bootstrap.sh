@@ -37,6 +37,15 @@ helm upgrade \
     -f config/global/openttd-base.yaml \
     charts/openttd-base
 
+helm dep update charts/digitalocean-fixes
+helm upgrade \
+    --force \
+    --namespace global \
+    --install global-digitalocean-fixes \
+    -f config/global/global.yaml \
+    -f config/global/digitalocean-fixes.yaml \
+    charts/digitalocean-fixes
+
 # Deploy openttd-iac for the first time. This contains the deployer, and will
 # take over from there.
 helm upgrade \
