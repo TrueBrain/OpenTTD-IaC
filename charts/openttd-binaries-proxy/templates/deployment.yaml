@@ -43,6 +43,15 @@ spec:
     {{- end }}
     {{- with .Values.affinity }}
       affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                - {{ .Release.Name }}
+            topologyKey: kubernetes.io/hostname
 {{ toYaml . | indent 8 }}
     {{- end }}
     {{- with .Values.tolerations }}
