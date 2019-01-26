@@ -6,6 +6,17 @@ data:
   s3.conf: |-
     @include kubernetes.conf
 
+    <source>
+        @type tail
+        @id in_tail_syslog
+        path /var/log/syslog
+        pos_file /var/log/fluentd-syslog.pos
+        tag syslog
+        <parse>
+            @type syslog
+        </parse>
+    </source>
+
     <match **>
         @type s3
         @id out_s3
@@ -18,7 +29,7 @@ data:
         s3_region "#{ENV['S3_REGION']}"
         s3_endpoint "#{ENV['S3_ENDPOINT']}"
 
-        s3_object_key_format "%{path}%Y/%m/%d/node-#{Socket.gethostname}-log-%{index}.%{file_extension}"
+        s3_object_key_format "%{path}%Y/%m/%d/%H-log-#{Socket.gethostname}-%{index}.%{file_extension}"
 
         <inject>
             time_key time
@@ -29,6 +40,7 @@ data:
             @type file
             path /var/log/fluentd-buffers/s3.buffer
             timekey 3600
+            timekey_wait 10m
             timekey_use_utc true
             chunk_limit_size 256m
         </buffer>
