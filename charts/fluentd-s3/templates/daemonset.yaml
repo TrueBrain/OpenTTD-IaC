@@ -1,0 +1,83 @@
+apiVersion: apps/v1beta2
+kind: DaemonSet
+metadata:
+  name: {{ include "helper.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "helper.name" . }}
+    helm.sh/chart: {{ include "helper.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    kubernetes.io/cluster-service: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "helper.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "helper.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      serviceAccount: fluentd
+      serviceAccountName: fluentd
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+        imagePullPolicy: Always
+
+        env:
+        - name: S3_BUCKET
+          value: {{ .Values.s3.bucket }}
+        - name: S3_REGION
+          value: {{ .Values.s3.region }}
+        - name: S3_ENDPOINT
+          value: {{ .Values.s3.endpoint }}
+        - name: AWS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Chart.Name }}
+              key: aws_key_id
+        - name: AWS_SEC_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Chart.Name }}
+              key: aws_sec_key
+
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+        - name: fluentd-conf-volume
+          mountPath: /fluentd/etc/fluent.conf
+          subPath: fluent.conf
+
+      terminationGracePeriodSeconds: 30
+
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: fluentd-conf-volume
+        configMap:
+          name: {{ .Chart.Name }}
+          items:
+          - key: s3.conf
+            path: fluent.conf
+
+      # Don't schedule on the master
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        effect: "NoSchedule"

@@ -16,6 +16,7 @@ kubectl apply -f config/namespaces.yaml
 kubectl apply -f config/crd-charts.yaml
 kubectl apply -f config/sa-azure-pipelines.yaml
 kubectl apply -f config/sa-deployer.yaml
+kubectl apply -f config/sa-fluentd.yaml
 
 # External CRDs; helm doesn't support CRDs that well, so we apply it manually
 kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/master/deploy/manifests/00-crds.yaml

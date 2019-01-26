@@ -1,0 +1,4 @@
+s3:
+  bucket: openttd-logs
+  region: eu-west-1
+  endpoint: https://ams3.digitaloceanspaces.com

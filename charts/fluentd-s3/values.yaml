@@ -1,0 +1,10 @@
+image:
+  repository: fluent/fluentd-kubernetes-daemonset
+
+nameOverride: ""
+fullnameOverride: ""
+
+s3:
+  bucket: logs
+  region: eu-west-1
+  endpoint: https://s3.amazonaws.com
