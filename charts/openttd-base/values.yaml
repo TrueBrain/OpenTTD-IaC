@@ -10,3 +10,7 @@ metrics-server:
     # See https://github.com/digitalocean/digitalocean-cloud-controller-manager/issues/150
     - --kubelet-preferred-address-types=InternalIP
     - --kubelet-insecure-tls
+
+nginx-ingress:
+  controller:
+    kind: DaemonSet
