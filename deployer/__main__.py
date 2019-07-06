@@ -8,7 +8,7 @@ import signal
 from kubernetes_asyncio import client, config
 
 from deployer.helpers.subprocess import run_command
-from deployer.monitor import monitor
+from deployer.monitor import monitor_forever
 
 log = logging.getLogger(__name__)
 
@@ -44,9 +44,9 @@ async def main():
     await run_command(f"helm version", timeout=30)
 
     tasks = [
-        asyncio.ensure_future(monitor(crds, "global")),
-        asyncio.ensure_future(monitor(crds, "production")),
-        asyncio.ensure_future(monitor(crds, "staging")),
+        asyncio.ensure_future(monitor_forever(crds, "global")),
+        asyncio.ensure_future(monitor_forever(crds, "production")),
+        asyncio.ensure_future(monitor_forever(crds, "staging")),
     ]
 
     signal.signal(signal.SIGTERM, functools.partial(signal_handler, tasks))

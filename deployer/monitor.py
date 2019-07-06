@@ -49,3 +49,8 @@ async def monitor(crds, namespace):
             _emit_event(event)
 
     log.error(f"Monitoring in namespace '{namespace}' stopped unexpectedly")
+
+
+async def monitor_forever(crds, namespace):
+    while True:
+        await monitor(crds, namespace)
