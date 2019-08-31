@@ -1,12 +1,12 @@
 dependencies:
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com
-  version: 1.1.1
+  version: 1.11.4
 - name: cert-manager
   repository: https://kubernetes-charts.storage.googleapis.com
   version: v0.5.2
 - name: metrics-server
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 2.0.4
-digest: sha256:0d0b7b0729d98e41c1476d2d13fc9c07138e2ebb2519506d6d1a0fe894baad70
-generated: 2018-12-31T14:06:52.3867534+01:00
+digest: sha256:11ef69520272e80139ec997e914ed62f9685c01c80e64eef93a51bd16f85e428
+generated: 2019-07-27T15:29:52.4311407+02:00
