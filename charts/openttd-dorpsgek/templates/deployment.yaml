@@ -20,7 +20,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       volumes:
-      - name: gitub_app_private_key-volume
+      - name: secret-gitub-app-private-key-volume
         secret:
           secretName: openttd-dorpsgek-files
       containers:
@@ -28,23 +28,23 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
           volumeMounts:
-          - name: secret-gitub_app_private_key-volume
+          - name: secret-gitub-app-private-key-volume
             readOnly: true
             mountPath: "/etc/dorpsgek-secrets"
           env:
-          - name: SENTRY_DSN
+          - name: DORPSGEK_SENTRY_DSN
             valueFrom:
               secretKeyRef:
                 name: {{ .Chart.Name }}
                 key: sentryDsn
-          - name: GITHUB_APP_ID
+          - name: DORPSGEK_GITHUB_APP_ID
             valueFrom:
               secretKeyRef:
                 name: {{ .Chart.Name }}
                 key: gitHubAppId
-          - name: GITHUB_APP_PRIVATE_KEY
+          - name: DORPSGEK_GITHUB_APP_PRIVATE_KEY
             value: /etc/dorpsgek-secrets/github-app-private-key.pem
-          - name: GITHUB_APP_SECRET
+          - name: DORPSGEK_GITHUB_APP_SECRET
             valueFrom:
               secretKeyRef:
                 name: {{ .Chart.Name }}
