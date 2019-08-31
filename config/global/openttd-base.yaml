@@ -1,2 +1,9 @@
 acme:
   email: truebrain@openttd.org
+
+nginx-ingress:
+  controller:
+    service:
+      annotations:
+        # FIX for https://github.com/jetstack/cert-manager/issues/466
+        service.beta.kubernetes.io/do-loadbalancer-hostname: "www.openttd.org"
