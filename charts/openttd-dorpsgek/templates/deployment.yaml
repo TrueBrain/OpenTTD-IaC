@@ -1,0 +1,86 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "helper.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "helper.name" . }}
+    helm.sh/chart: {{ include "helper.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "helper.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "helper.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      volumes:
+      - name: gitub_app_private_key-volume
+        secret:
+          secretName: openttd-dorpsgek-files
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: secret-gitub_app_private_key-volume
+            readOnly: true
+            mountPath: "/etc/dorpsgek-secrets"
+          env:
+          - name: SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Chart.Name }}
+                key: sentryDsn
+          - name: GITHUB_APP_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Chart.Name }}
+                key: gitHubAppId
+          - name: GITHUB_APP_PRIVATE_KEY
+            value: /etc/dorpsgek-secrets/github-app-private-key.pem
+          - name: GITHUB_APP_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Chart.Name }}
+                key: gitHubAppSecret
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                - {{ .Release.Name }}
+            topologyKey: kubernetes.io/hostname
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

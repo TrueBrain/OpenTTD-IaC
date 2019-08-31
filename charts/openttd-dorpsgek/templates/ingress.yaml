@@ -1,0 +1,34 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "helper.fullname" . -}}
+{{- $domain := required  "A valid ingress.domain is required" .Values.ingress.domain -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ include "helper.name" . }}
+    helm.sh/chart: {{ include "helper.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  tls:
+    - hosts:
+      {{- range .Values.ingress.hosts }}
+        - {{ printf "%s.%s" . $domain | quote }}
+      {{- end }}
+      secretName: {{ $fullName }}-cert
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ printf "%s.%s" . $domain | quote }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: http
+  {{- end }}
+{{- end }}
