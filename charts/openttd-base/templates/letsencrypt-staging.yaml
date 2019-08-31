@@ -10,4 +10,8 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
 
-    http01: {}
+    solvers:
+    - selector: {}
+      http01:
+        ingress:
+          class: nginx

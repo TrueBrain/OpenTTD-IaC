@@ -12,6 +12,8 @@
 
 set -e
 
+helm repo add jetstack https://charts.jetstack.io
+
 kubectl apply -f config/namespaces.yaml
 kubectl apply -f config/crd-charts.yaml
 kubectl apply -f config/sa-azure-pipelines.yaml
