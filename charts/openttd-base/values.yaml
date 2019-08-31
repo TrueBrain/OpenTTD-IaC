@@ -13,4 +13,35 @@ metrics-server:
 
 nginx-ingress:
   controller:
-    kind: DaemonSet
+    kind: Deployment
+    replicaCount: 2
+
+    config:
+      use-proxy-protocol: "true"
+
+    service:
+      annotations:
+        service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+      omitClusterIP: true
+      nodePorts:
+        http: 32080
+        https: 32443
+    stats:
+      service:
+        omitClusterIP: true
+    metrics:
+      service:
+        omitClusterIP: true
+
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - nginx-ingress
+            topologyKey: kubernetes.io/hostname
